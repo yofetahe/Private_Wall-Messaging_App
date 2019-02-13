@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="wrapper center_content">
+        <h5 class="error_message">Danger</h5>
+        <p>Hmm... Message {{ msg_id }} doesn't belog to you.</p>
+        <p>Are you trying to hack my site???</p>
+        <p>Your ip address {{ ipaddress }} has been recorded.</p>
+        <p>Next time you attempt an activity like this we'll log you off automatically and report your ip address to our site administrator.</p>
+    </div>
+{% endblock %}

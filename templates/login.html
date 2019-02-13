@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="app-sm-form">
+    <p>Log in Here!</p>    
+    <form action="/login" method="POST">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'general' %}
+                    <p class="error_message">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="form-group">
+            <label for="email">Email</label>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for categoty, message in messages %}
+                        {% if categoty == 'email' %}
+                        <p class="error_message">{{ message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <input type="text" class="form-control" name="email" id="" value="{{ email }}">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for categoty, message in messages %}
+                        {% if categoty == 'password' %}
+                        <p class="error_message">{{ message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <input type="password" class="form-control" name="password" id="">
+        </div>
+        <input type="submit" class="btn btn-primary" value="LOG IN">
+    </form>
+</div>
+{% endblock %}

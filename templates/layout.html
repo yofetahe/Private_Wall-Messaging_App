@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>User Management</title>
+        
+    <!-- Begin - javascript and CSS required for implmenting dataTables -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <!-- End - javascript and CSS required for implmenting dataTables -->
+
+    <!-- Begin - javascript and CSS required for datepicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- End - javascript and CSS required for datepicker -->
+
+    <!-- Begin - CSS required for Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- End - CSS required for Icons -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</head>
+<body>
+    <div id="header">
+        <div class="wrapper">
+            <span class="dot"></span>
+            <span class="app-name">App</span>
+            <span class="app-menu">
+                <span class="action-separetor"> | </span>
+                <a href="/home"> Home </a>
+                <span class="action-separetor"> | </span>                
+                {% if session['email'] %}
+                    <!-- Login as - {{ session['email'] }} | -->
+                    Hello, {{ session['fname'] }}!
+                    <span class="action-separetor"> | </span>
+					<a href="{{ url_for('logout') }}" class="logout-link">SIGN OUT</a>
+                {% else %}                    
+                    <a href="/get_user_registration_form">SIGN UP</a>
+                    <span class="action-separetor"> | </span>
+					<a href="{{ url_for('get_log_in_form') }}" class="logout-link">LOGIN</a>
+				{% endif %}                    
+            </span>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        {% block content %}
+        
+        {% endblock %}
+    </div>
+
+    <div id="footer">
+        <div class="wrapper">            
+            <p class="org-name"> Org. Name </p>
+            <p class="copyright"> Copyright &copy;2001-<script type="text/JavaScript"> var theDate=new Date(); document.write(theDate.getFullYear())</script> </p>
+        </div>
+    </div>
+</body>
+</html>
