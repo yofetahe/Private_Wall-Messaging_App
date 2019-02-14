@@ -1,0 +1,8 @@
+<table class="table table-striped" style="width:50%">
+    {% for user in usersList %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ user['first_name'] }} {{ user['last_name'] }}</td>
+        </tr>
+    {% endfor %}
+</table>

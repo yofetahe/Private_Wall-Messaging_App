@@ -22,10 +22,26 @@
                 onSelect: function(selected) {
                     $("#dateFrom").datepicker("option","maxDate", selected)
                 }
-            });  
+            });
+
+            $("#searchFriend").keyup(function(){
+                var searchValue = $("#searchFriend").serialize();                
+                var inputValue = searchValue.substring(searchValue.indexOf('=')+1)
+                $.ajax({
+                    url: "/search_friend",
+                    method: 'POST',
+                    data: searchValue
+                }).done(function(res){
+                    if(inputValue.length == 0){
+                        $("#searchResult").html("")
+                    } else {
+                        $("#searchResult").html(res)
+                    }
+                })
+            });
         });
     </script>
-    <div class="app-form">
+    <div class="app-sm-form">
         <p>Register Here!</p>    
         <form action="/register_user" method="POST">
             <div class="form-group">
@@ -99,5 +115,13 @@
             </div>            
             <input type="submit" class="btn btn-primary" value="SIGN UP">
         </form>
+    </div>
+    <div class="search-form">
+        <form action="/search_friend" method="POST">
+            <input type="text" class="form-control" id="searchFriend" name="searchFriend" placeholder="Search Your Friend">
+        </form>
+        <div class="search-result">
+            <div id="searchResult"></div>
+        </div>
     </div>
 {% endblock %}

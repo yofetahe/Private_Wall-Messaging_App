@@ -103,7 +103,19 @@ div#footer{
 }
 .app-sm-form{
     width: 30%;
+    display: inline-block;
+    vertical-align: top;
 }
+.search-form{
+    display: inline-block;
+    width: 69%;
+    vertical-align: top;
+    padding-left: 20px;
+    text-align: center;
+}
+    div.search-form>form{
+        width: 50%;
+    }
 
 /* messaging app */
 div.message_list{
@@ -141,3 +153,6 @@ div.messaging{
     width: 30%;
 }
 
+.search-result{
+    padding-top: 30px;
+}

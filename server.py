@@ -271,5 +271,13 @@ def delete_message(msg_id):
 def danger(msg_id, ipaddress):
     return render_template("danger.html", msg_id = msg_id, ipaddress=ipaddress)
 
+@app.route("/search_friend", methods=['POST'])
+def search_friend():
+    mysql = connectToMySQL(DB_NAME)
+    query = "SELECT * FROM users WHERE first_name LIKE %%(val)s OR last_name LIKE %%(val)s;"
+    data = { "val": str(request.form['searchFriend'])+"%" }
+    usersList = mysql.query_db(query, data)
+    return render_template("partial/users_list.html", usersList=usersList)
+
 if __name__ == '__main__':
     app.run(debug=True)
