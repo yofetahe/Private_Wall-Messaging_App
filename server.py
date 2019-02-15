@@ -230,9 +230,9 @@ def send_message():
     if len(userid) == 0:
         errorCounter += 1
         flash("Please select to whom you want to send message", 'users')
-    if len(message_content) == 0:
+    if len(message_content) < 5:
         errorCounter += 1
-        flash("Message is required", 'message')
+        flash("Message must contain at least 5 characters", 'message')
     if errorCounter == 0:
         mysql = connectToMySQL(DB_NAME)
         query = "INSERT INTO messages(message_content, message_from, message_to, create_at) VALUES(%(content)s, %(from)s, %(to)s, NOW())"
@@ -242,9 +242,10 @@ def send_message():
             "to": userid
         }
         mysql.query_db(query, data)
+    
     return redirect("/home")
 
-@app.route("/delete_message/<msg_id>")
+@app.route("/delete_message/<msg_id>", methods=['POST'])
 def delete_message(msg_id):
     # check if the message belong to the logged-in user or not
     mysql = connectToMySQL(DB_NAME)
@@ -265,7 +266,13 @@ def delete_message(msg_id):
         "msg_id": msg_id
     }
     mysql.query_db(query, data)
-    return redirect("/home")
+
+    msgList=getMessageList()
+    # usersList = getAppUsersList()
+    # numOfMsgSent = countNumberOfMessageSent()
+    numOfMsgReceived = countNumberOfMessageReceived()
+    print("message " + str(msg_id))
+    return render_template("partial/message_list.html", msgList=msgList, numOfMsgReceived=numOfMsgReceived)
 
 @app.route("/danger/<msg_id>/<ipaddress>")
 def danger(msg_id, ipaddress):

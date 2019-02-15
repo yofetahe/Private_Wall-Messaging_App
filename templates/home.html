@@ -1,8 +1,56 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+    <script>
+        $(document).ready(function(){
+            
+            $("#message_form").submit(function(){
+                var user = $('#users').val();
+                var msg = $('#message_text').val();
+
+                $("#userErrorMessage").html("")
+                $("#textErrorMessage").html("")
+
+                var counter = 0;
+
+                if(user.length == 0){
+                    counter++;
+                    $("#userErrorMessage").html("User is required")
+                }
+                if(msg.length < 5){
+                    counter++
+                    $("#textErrorMessage").html("Message must contain at least 5 characters")
+                }
+                if(counter == 0){        
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        method: 'POST',
+                        data: $(this).serialize()
+                    })
+                    .done(function(res){
+                        alert(res)
+                        $("#message_text").val("")
+                    });
+                }
+                return false;
+            });
+        });
+
+        function delete_message(id){            
+            $.ajax({
+                url: "/delete_message/"+id,
+                method: 'POST',
+                data: $("#msg_id").serialize(),
+                async: false, 
+                success: function(result){
+                    $("#message_list").html(result)
+                }
+            });
+        }
+    </script>
+
     <div class="wrapper">
-        <div class="message_list">
+        <div class="message_list" id="message_list">
             <h5><u>{{ numOfMsgReceived }} Message(s) for You</u></h5>
             {% for message in msgList %}
                 <div class="message_row">
@@ -11,7 +59,7 @@
                            <i>{% if message['mon'] != 0 %}
                                 ({{ message['mon'] }} Month(s)
                             {% elif message['dy'] != 0 %}
-                                ({{ message['day'] }} Day(s)
+                                ({{ message['dy'] }} Day(s)
                             {% elif message['hr'] != 0 %}
                                 ({{ message['hr'] }} Hour(s)
                             {% elif message['min'] != 0 %}
@@ -22,9 +70,7 @@
                         <p>{{ message['message_content'] }}</p>
                     </div>
                     <div class="message_action">
-                        <a href="/delete_message/{{ message['id'] }}">
-                            <i class="material-icons material-icons-pointer">delete_forever</i>
-                        </a>
+                        <i class="material-icons material-icons-pointer" id="msg_id" onclick="delete_message({{message['id']}})">delete_forever</i>
                     </div>
                 </div>
             {% endfor %}
@@ -32,10 +78,11 @@
         <div class="messaging">
             <h5><u>Send Messages</u></h5>
             <p>You have sent {{ numOfMsgSent }} messages so far.</p>
-            <form action="/send_message" method="POST" class="message_form">
+            <form action="/send_message" method="POST" id="message_form" class="message_form">
                 <div class="form-group">
                     <label for="users">Message To</label>
-                    <select name="users" id="" class="form-control">
+                    <span id="userErrorMessage" class="error_message"></span>
+                    <select name="users" id="users" class="form-control">
                         <option value=""></option>
                         {% if usersList %}
                             {% for user in usersList %}
@@ -46,7 +93,8 @@
                 </div>
                 <div class="form-group">
                     <label for="message_content">Message Content</label>
-                    <textarea name="message_content" id="" cols="30" rows="5" class="form-control"></textarea>
+                    <span id="textErrorMessage" class="error_message"></span>
+                    <textarea name="message_content" id="message_text" cols="30" rows="5" class="form-control"></textarea>
                 </div>
                 <input type="submit" value="SEND" class="btn btn-primary">
             </form>

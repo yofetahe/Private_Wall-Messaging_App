@@ -1,0 +1,23 @@
+<h5><u>{{ numOfMsgReceived }} Message(s) for You</u></h5>
+{% for message in msgList %}
+    <div class="message_row">
+        <div class="message_content">
+            <p><b>{{ message['first_name'] }} {{ message['last_name'] }}</b>
+            <i>{% if message['mon'] != 0 %}
+                    ({{ message['mon'] }} Month(s)
+                {% elif message['dy'] != 0 %}
+                    ({{ message['day'] }} Day(s)
+                {% elif message['hr'] != 0 %}
+                    ({{ message['hr'] }} Hour(s)
+                {% elif message['min'] != 0 %}
+                    ({{ message['min'] }} Minute(s)
+                {% else %}
+                    ({{ message['sec'] }} Second(s)
+                {% endif %} ago)</i></p>
+            <p>{{ message['message_content'] }}</p>
+        </div>
+        <div class="message_action">
+            <i class="material-icons material-icons-pointer" id="msg_id" onclick="delete_message({{message['id']}})">delete_forever</i>
+        </div>
+    </div>
+{% endfor %}

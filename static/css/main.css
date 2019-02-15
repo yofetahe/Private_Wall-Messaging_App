@@ -27,11 +27,11 @@ div.wrapper{
         vertical-align: top;
         padding-top: 12px;
         padding-left: 10px;
-        width: 14%;
+        width: 24%;
     }
     div#header>div.wrapper>span.app-menu{
         display: inline-block;
-        width: 80%;
+        width: 70%;
         vertical-align: top;
         padding-top: 12px;
         padding-right: 15px;
@@ -116,6 +116,26 @@ div#footer{
     div.search-form>form{
         width: 50%;
     }
+
+div.category{
+    width: 100%;
+    min-height: 50px;
+    margin-bottom: 20px;
+}
+div.professionals{
+    display: inline-block;
+    width: 20%;
+    min-height: 400px;
+    border-radius: 5px;
+    border-bottom: 1px black solid;    
+    /* background-color: #eeeeee; */
+    box-shadow:  0px 2px 5px silver;
+}
+div.professionals-separetor{
+    display: inline-block;
+    width: 60px;
+    color: white;
+}
 
 /* messaging app */
 div.message_list{
